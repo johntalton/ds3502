@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "lint": "./node_modules/.bin/eslint .",
-    test:mocha": "mocha",
+    "test:mocha": "mocha",
     "coverage:c8": "./node_modules/.bin/c8 --check-coverage --all --include src/**/*.js --lines 75 --functions 5 --branches 85 --reporter lcov --reporter text npm --silent run test:mocha -- --no-parallel --reporter min"
   },
   "mocha": {
