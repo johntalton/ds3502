@@ -1,0 +1,62 @@
+{
+  "name": "@johntalton/ds3502",
+  "version": "0.0.0",
+  "description": "",
+  "author": "johntalton@gmail.com",
+  "license": "MIT",
+  "main": "src/index.js",
+  "exports": {
+    "import": "./src/index.js",
+    "require": "./src/index.js"
+  },
+  "type": "commonjs",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "files": [
+    "src/**/*.js"
+  ],
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint .",
+    test:mocha": "mocha",
+    "coverage:c8": "./node_modules/.bin/c8 --check-coverage --all --include src/**/*.js --lines 75 --functions 5 --branches 85 --reporter lcov --reporter text npm --silent run test:mocha -- --no-parallel --reporter min"
+  },
+  "mocha": {
+    "spec": [
+      "test/*.spec.js"
+    ],
+    "grep": "@broken|@slow",
+    "invert": true,
+    "parallel": true,
+    "slow": 2,
+    "timeout": 31,
+    "watch": false,
+    "sort": false,
+    "forbitOnly": true,
+    "check-leaks": true,
+    "global": []
+  },
+  "dependencies": {
+    "@johntalton/and-other-delights": "^2.0.0"
+  },
+  "devDependencies": {
+    "c8": "^7.2.0",
+    "chai": "^4.2.0",
+    "eslint": "^7.1.0",
+    "eslint-plugin-fp": "^2.3.0",
+    "eslint-plugin-immutable": "^1.0.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsdoc": "^28.5.1",
+    "eslint-plugin-no-loops": "^0.3.0",
+    "eslint-plugin-no-use-extend-native": "^0.5.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-security": "^1.4.0",
+    "eslint-plugin-spellcheck": "0.0.17",
+    "i2c-bus": "^5.2.0",
+    "mocha": "^8.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:johntalton/ds3502.git"
+  }
+}
