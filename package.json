@@ -1,29 +1,29 @@
 {
   "name": "@johntalton/ds3502",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "author": "johntalton@gmail.com",
   "license": "MIT",
-  "main": "src/index.js",
+  "main": "src/index.mjs",
   "exports": {
-    "import": "./src/index.js",
-    "require": "./src/index.js"
+    "import": "./src/index.mjs",
+    "require": "./src/index.mjs"
   },
-  "type": "commonjs",
+  "type": "module",
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=14.0.0"
   },
   "files": [
-    "src/**/*.js"
+    "src/**/*.mjs"
   ],
   "scripts": {
     "lint": "./node_modules/.bin/eslint .",
     "test:mocha": "mocha",
-    "coverage:c8": "./node_modules/.bin/c8 --check-coverage --all --include src/**/*.js --lines 75 --functions 5 --branches 85 --reporter lcov --reporter text npm --silent run test:mocha -- --no-parallel --reporter min"
+    "coverage:c8": "./node_modules/.bin/c8 --check-coverage --all --include src/**/*.mjs --lines 75 --functions 5 --branches 85 --reporter lcov --reporter text npm --silent run test:mocha -- --no-parallel --reporter min"
   },
   "mocha": {
     "spec": [
-      "test/*.spec.js"
+      "test/*.spec.mjs"
     ],
     "grep": "@broken|@slow",
     "invert": true,
