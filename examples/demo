@@ -1,0 +1,10 @@
+#!/bin/bash
+
+FOO=""
+
+while true;
+do
+  eval "node set.mjs mode 128 updateDelay 1 pot $(( $RANDOM % 128 ))"
+done
+# echo $FOO
+eval "node set.mjs pot 0"
