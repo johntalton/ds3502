@@ -7,7 +7,7 @@ Digital Potentiometer (POT)
 ![GitHub](https://img.shields.io/github/license/johntalton/ds3502)
 [![Downloads Per Month](http://img.shields.io/npm/dm/@johntalton/ds3502.svg)](https://www.npmjs.com/package/@johntalton/ds3502)
 ![GitHub last commit](https://img.shields.io/github/last-commit/johntalton/ds3502)
-
+[![Package Quality](https://npm.packagequality.com/shield/%40johntalton%2Fds3502.svg)](https://packagequality.com/#?package=@johntalton/ds3502)
 
 * [Operation](#gear-operation)
 * [Api](#book-api)
