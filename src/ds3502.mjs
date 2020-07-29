@@ -2,15 +2,9 @@
 export const MODE_UPDATE_ONLY = 0
 export const MODE_SET_AND_UPDATE = 1
 
-class Converter {
-  static calculateVoltage(wr, vrh, vrl) {
-    return vrl + (wr / 127.0) * (vrh - vrl)
-  }
-  static calculateWiper(desiredV, vrh, vrl) {
-    return ((desiredV - vrl) / (vrh - vrl)) * 127
-  }
-}
-
+/**
+ *
+ **/
 export class DS3502 {
   static from(abus) { return Promise.resolve(new DS3502(abus)) }
 
@@ -18,6 +12,9 @@ export class DS3502 {
     this.abus = abus
   }
 
+  /**
+   * 
+   **/
   async profile() {
     const result = await this.abus.read(0x00, 3)
     //console.log(result)
@@ -30,6 +27,9 @@ export class DS3502 {
     }
   }
 
+  /**
+   *
+   **/
   async setProfile(profile) {
     //profile.unused = 10
 
