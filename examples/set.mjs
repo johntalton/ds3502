@@ -31,11 +31,6 @@ function pot(item, steps) {
   return { next: command, steps: [ ...steps, (ds) => Action.pot(ds, item) ] }
 }
 
-function potDefault(item, steps) {
-  // console.log('---', item)
-  return { next: command, steps: [ ...steps, (ds) => Action.potDefault(ds, item) ]}
-}
-
 function updateDelay(item, steps) {
   return { next: command, steps: [ ...steps, (ds) => { config.delayMs = item} ]}
 }
