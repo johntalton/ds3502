@@ -3,49 +3,97 @@ import aod from '@johntalton/and-other-delights'
 const { I2CAddressedBus } = aod
 import { DS3502 } from '@johntalton/ds3502'
 
-const busAddress = 0x28
-const config = { delayMs: 15, mock: false }
+const DEFAULT_ADDRESS = 0x28
+const ALT_ADDRESS = 0x2b
 
-function delayMs(ms) { return new Promise(resolve => setTimeout(resolve, ms)) }
-
-class Action {
-  static pot(ds, value) { return ds.setProfile({ WR: value }) }
-  static mode(ds, value) { return ds.setProfile({ CR: value }) }
-  static unused(ds, value) { return ds.setProfile({ unused: value })}
+function delayMs(ms) {
+  console.log('Start Delay', ms)
+  return new Promise(resolve => setTimeout(() => {
+    console.log('End Delay')
+    resolve()
+  }, ms))
 }
 
+class Action {
+  static pot(ds, value) {
+    console.log('Setting Wiper Value', value)
+    return ds.setProfile({ WR: value })
+  }
+  
+  static mode(ds, value) {
+    console.log('Setting Control', value)
+    return ds.setProfile({ CR: value })
+  }
+  
+  static unused(ds, value) {
+    console.log('Setting Unused', value)
+    return ds.setProfile({ unused: value })
+  }
+}
+
+async function setupDS(state, address) {
+  console.log('Setup DS 0x' + address.toString(16))
+  state.address = address
+  state.bus = await i2c.openPromisified(1)
+  state.ab = new I2CAddressedBus(state.bus, state.address)
+  state.ds = await DS3502.from(state.ab)
+}
+
+
+
+function addressOrCommand(item, steps) {
+  if(item !== 'address' ) {
+    return command(item, [ ...steps, state => setupDS(state, DEFAULT_ADDRESS) ])
+  }
+
+  return command(item, steps)
+}
+
+
+
 function script(item, steps) {
-  return { next: command, steps }
+  return { next: addressOrCommand, steps }
 }
 
 function node(item, steps) {
   return { next: script, steps }
 }
 
-function mode(item, steps) {
-  return { next: command, steps: [ ...steps, (ds) => Action.mode(ds, item) ] }
+function address(addressStr, steps) {
+  const address = parseInt(addressStr, 16)
+  return { next: command, steps: [ ...steps, state => setupDS(state, address) ]  }
 }
 
-function pot(item, steps) {
-  // console.log('---', item)
-  return { next: command, steps: [ ...steps, (ds) => Action.pot(ds, item) ] }
+function mode(modeStr, steps) {
+  const mode = modeStr
+  return { next: command, steps: [ ...steps, state => Action.mode(state.ds, mode) ] }
 }
 
-function updateDelay(item, steps) {
-  return { next: command, steps: [ ...steps, (ds) => { config.delayMs = item} ]}
+function pot(potStr, steps) {
+  const pot = potStr
+  return { next: command, steps: [ ...steps, state => Action.pot(state.ds, pot) ] }
 }
 
-function delay(item, steps) {
-  return { next: command, steps: [ ...steps, (ds) => delayMs(item) ] }
+function commandDelay(commandDelayStr, steps) {
+  const commandDelayMs = commandDelayStr
+  return { next: command, steps: [ ...steps, state => {
+    console.log('Updating command delayMs', commandDelayMs)
+    state.commandDelayMs = commandDelayMs
+  }]}
+}
+
+function delay(delayStr, steps) {
+  const _delayMs = delayStr
+  return { next: command, steps: [ ...steps, state => delayMs(_delayMs) ] }
 }
 
 function command(item, steps) {
-  // console.log('start new command', item)
+  if(item === 'address') { return { next: address, steps } }
   if(item === 'mode') { return { next: mode, steps } }
   if(item === 'pot') { return { next: pot, steps } }
   if(item === 'unused') { return { next: unused, steps } }
   if(item === 'delay') { return { next: delay, steps } } 
-  if(item === 'updateDelay') { return { next: updateDelay, steps } }
+  if(item === 'commandDelay') { return { next: commandDelay, steps } }
   if(item === 'mock') {
     config.mock = true
     return { next: command, steps }
@@ -56,21 +104,20 @@ function command(item, steps) {
 }
 
 async function build(argv) {
-  const builder = { steps: [], next: node }
+  const builder = { next: node, steps: [] }
   return argv.reduce((b, item) => b.next(item, b.steps), builder).steps
 }
 
 async function main(argv) {
   const steps = await build(argv)
-  const bus1 = await i2c.openPromisified(1)
-  const ds = await DS3502.from(new I2CAddressedBus(bus1, busAddress))
+  const state = { commandDelayMs: 15 }
 
   for(const s in steps) {
     const step = steps[s]
     //console.log('exec step', step)
     try {
-      await step(ds)
-      await delayMs(config.delayMs)
+      await step(state)
+      await delayMs(state.commandDelayMs)
     }
     catch(e) {
       console.log('step error', e)
@@ -92,6 +139,8 @@ catch(e) {
   console.log('top level error', e)
 }
 
+
+// set address 0x2b
 // set mode updateOnly
 // set mode setAndUpdate
 // set pot 30%
