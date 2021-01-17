@@ -3,7 +3,7 @@ import aod from '@johntalton/and-other-delights'
 const { I2CAddressedBus } = aod
 import { DS3502 } from '@johntalton/ds3502'
 
-const busAddress = 0x28
+const busAddress = 0x2b
 const config = { delayMs: 15, mock: false }
 
 function delayMs(ms) { return new Promise(resolve => setTimeout(resolve, ms)) }
@@ -66,6 +66,11 @@ process.on('SIGINT', signal => {
 })
 */
 
+const startTime = Date.now()
+let lastReportTime = startTime
+
+console.log({ startTime }) // performance.mark
+
 for await (const p of geni) {  
   if(false) { 
    let out = low < start ? '< ...' : '[ ...'
@@ -86,5 +91,11 @@ for await (const p of geni) {
 
 
   await ds.setProfile({ WR: p })
+
+  if(Date.now() - lastReportTime > (1 * 60 * 1000)) {
+    lastReportTime = Date.now()
+    const uptimeMS = lastReportTime - startTime
+    console.log({ now: lastReportTime, uptimeSec: uptimeMS / 1000, uptimeMin: uptimeMS / 1000 / 60 })
+  }
 }
 
