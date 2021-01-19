@@ -6,33 +6,33 @@ import { DS3502 } from '@johntalton/ds3502'
 const DEFAULT_ADDRESS = 0x28
 const ALT_ADDRESS = 0x2b
 
-function delayMs(ms) {
-  console.log('Start Delay', ms)
+function delayMs(state, ms) {
+  if(state.log) { console.log('Start Delay', ms) }
   return new Promise(resolve => setTimeout(() => {
-    console.log('End Delay')
+    if(state.log) { console.log('End Delay') }
     resolve()
   }, ms))
 }
 
 class Action {
-  static pot(ds, value) {
-    console.log('Setting Wiper Value', value)
-    return ds.setProfile({ WR: value })
+  static pot(state, value) {
+    if(state.log) { console.log('Setting Wiper Value', value) }
+    return state.ds.setProfile({ WR: value })
   }
   
-  static mode(ds, value) {
-    console.log('Setting Control', value)
-    return ds.setProfile({ CR: value })
+  static mode(state, value) {
+    if(state.log) { console.log('Setting Control', value) }
+    return state.ds.setProfile({ CR: value })
   }
   
-  static unused(ds, value) {
-    console.log('Setting Unused', value)
-    return ds.setProfile({ unused: value })
+  static unused(state, value) {
+    if(state.log) { console.log('Setting Unused', value) }
+    return state.ds.setProfile({ unused: value })
   }
 }
 
 async function setupDS(state, address) {
-  console.log('Setup DS 0x' + address.toString(16))
+  if(state.log) { console.log('Setup DS 0x' + address.toString(16)) }
   state.address = address
   state.bus = await i2c.openPromisified(1)
   state.ab = new I2CAddressedBus(state.bus, state.address)
@@ -59,6 +59,12 @@ function node(item, steps) {
   return { next: script, steps }
 }
 
+function log(logStr, steps) {
+  const log = logStr.toUpperCase() === 'ON'  
+
+  return { next: command, steps: [ ...steps, state => { state.log = log }] }
+}
+
 function address(addressStr, steps) {
   const address = parseInt(addressStr, 16)
   return { next: command, steps: [ ...steps, state => setupDS(state, address) ]  }
@@ -66,28 +72,29 @@ function address(addressStr, steps) {
 
 function mode(modeStr, steps) {
   const mode = modeStr
-  return { next: command, steps: [ ...steps, state => Action.mode(state.ds, mode) ] }
+  return { next: command, steps: [ ...steps, state => Action.mode(state, mode) ] }
 }
 
 function pot(potStr, steps) {
   const pot = potStr
-  return { next: command, steps: [ ...steps, state => Action.pot(state.ds, pot) ] }
+  return { next: command, steps: [ ...steps, state => Action.pot(state, pot) ] }
 }
 
 function commandDelay(commandDelayStr, steps) {
   const commandDelayMs = commandDelayStr
   return { next: command, steps: [ ...steps, state => {
-    console.log('Updating command delayMs', commandDelayMs)
+    if(state.log) { console.log('Updating command delayMs', commandDelayMs) }
     state.commandDelayMs = commandDelayMs
   }]}
 }
 
 function delay(delayStr, steps) {
   const _delayMs = delayStr
-  return { next: command, steps: [ ...steps, state => delayMs(_delayMs) ] }
+  return { next: command, steps: [ ...steps, state => delayMs(state, _delayMs) ] }
 }
 
 function command(item, steps) {
+  if(item === 'log') { return { next: log, steps } }
   if(item === 'address') { return { next: address, steps } }
   if(item === 'mode') { return { next: mode, steps } }
   if(item === 'pot') { return { next: pot, steps } }
@@ -110,14 +117,14 @@ async function build(argv) {
 
 async function main(argv) {
   const steps = await build(argv)
-  const state = { commandDelayMs: 15 }
+  const state = { commandDelayMs: 15, log: false }
 
   for(const s in steps) {
     const step = steps[s]
     //console.log('exec step', step)
     try {
       await step(state)
-      await delayMs(state.commandDelayMs)
+      await delayMs(state, state.commandDelayMs)
     }
     catch(e) {
       console.log('step error', e)
@@ -140,6 +147,7 @@ catch(e) {
 }
 
 
+// set log ON
 // set address 0x2b
 // set mode updateOnly
 // set mode setAndUpdate
