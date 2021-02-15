@@ -1,6 +1,5 @@
 import i2c from 'i2c-bus'
-import aod from '@johntalton/and-other-delights'
-const { I2CAddressedBus } = aod
+import { I2CAddressedBus } from '@johntalton/and-other-delights'
 import { DS3502 } from '@johntalton/ds3502'
 
 const busAddress = 0x2b

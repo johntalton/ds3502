@@ -1,6 +1,6 @@
 {
   "name": "@johntalton/ds3502",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
   "author": "johntalton@gmail.com",
   "license": "MIT",
@@ -57,26 +57,26 @@
     "global": []
   },
   "dependencies": {
-    "@johntalton/and-other-delights": "^3.0.2"
+    "@johntalton/and-other-delights": "^5.0.0"
   },
   "devDependencies": {
-    "@johntalton/eslint-config": "github:johntalton/eslint-config",
-    "c8": "^7.2.0",
-    "chai": "^4.2.0",
-    "eslint": "^7.1.0",
+    "@johntalton/eslint-config": "^2.0.0",
+    "c8": "^7.5.0",
+    "chai": "^4.3.0",
+    "eslint": "^7.20.0",
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-immutable": "^1.0.0",
     "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jsdoc": "^31.0.5",
+    "eslint-plugin-jsdoc": "^31.6.1",
     "eslint-plugin-mocha": "^8.0.0",
     "eslint-plugin-no-loops": "^0.3.0",
     "eslint-plugin-no-use-extend-native": "^0.5.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-promise": "^4.3.1",
     "eslint-plugin-security": "^1.4.0",
     "eslint-plugin-spellcheck": "0.0.17",
     "i2c-bus": "^5.2.0",
-    "mocha": "^8.0.1"
+    "mocha": "^8.3.0"
   },
   "repository": {
     "type": "git",

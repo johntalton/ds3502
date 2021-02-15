@@ -9,7 +9,7 @@ export class DS3502 {
   }
 
   async profile() {
-    const result = await this.abus.read(0x00, 3)
+    const result = await this.abus.readI2cBlock(0x00, 3)
     const WR = result.readUInt8(0)
     const unused = result.readUInt8(1)
     const CR = result.readUInt8(2)
@@ -31,17 +31,17 @@ export class DS3502 {
 
     if(hasWR && !hasCR) {
       // pot update (but also may be update depending on mode)
-      return this.abus.write(0x00, Buffer.from([profile.WR]))
+      return this.abus.writeI2cBlock(0x00, Buffer.from([profile.WR]))
     }
 
     if(!hasWR && hasCR) {
       // update just mode
-      return this.abus.write(0x02, Buffer.from([profile.CR]))
+      return this.abus.writeI2cBlock(0x02, Buffer.from([profile.CR]))
     }
 
     if(hasWR && hasCR) {
       // full update
-      return this.abus.write(0x00, Buffer.from([profile.WR, unused, profile.CR]))
+      return this.abus.writeI2cBlock(0x00, Buffer.from([profile.WR, unused, profile.CR]))
     }
 
     throw new Error('unknown set profile state')
