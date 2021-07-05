@@ -76,7 +76,7 @@
     "eslint-plugin-security": "^1.4.0",
     "eslint-plugin-spellcheck": "0.0.17",
     "i2c-bus": "^5.2.0",
-    "mocha": "^8.3.0"
+    "mocha": "^9.0.2"
   },
   "repository": {
     "type": "git",
