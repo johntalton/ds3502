@@ -60,7 +60,7 @@
     "@johntalton/and-other-delights": "^6.0.0"
   },
   "devDependencies": {
-    "@johntalton/eslint-config": "github:johntalton/esline-config",
+    "@johntalton/eslint-config": "github:johntalton/eslint-config",
     "c8": "^7.5.0",
     "chai": "^4.3.0",
     "eslint": "^8.10.0",
