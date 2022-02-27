@@ -1,6 +1,6 @@
 {
   "name": "@johntalton/ds3502",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "author": "johntalton@gmail.com",
   "license": "MIT",
@@ -57,17 +57,16 @@
     "global": []
   },
   "dependencies": {
-    "@johntalton/and-other-delights": "^5.0.0"
+    "@johntalton/and-other-delights": "^6.0.0"
   },
   "devDependencies": {
-    "@johntalton/eslint-config": "^2.0.0",
+    "@johntalton/eslint-config": "github:johntalton/esline-config",
     "c8": "^7.5.0",
     "chai": "^4.3.0",
     "eslint": "^7.20.0",
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-immutable": "^1.0.0",
     "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jsdoc": "^31.6.1",
     "eslint-plugin-mocha": "^8.0.0",
     "eslint-plugin-no-loops": "^0.3.0",
     "eslint-plugin-no-use-extend-native": "^0.5.0",
