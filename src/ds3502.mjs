@@ -15,6 +15,6 @@ export class DS3502 {
 	}
 
 	async setProfile(profile) {
-		return Common.setProfile(this.abus)
+		return Common.setProfile(this.abus, profile)
 	}
 }
