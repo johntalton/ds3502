@@ -33,6 +33,26 @@ class Action {
   static unused(ds, value) { return ds.setProfile({ unused: value })}
 }
 
+async function setupDS(state, address) {
+  if(state.log) { console.log('Setup DS 0x' + address.toString(16)) }
+  state.address = address
+  state.bus = await i2c.openPromisified(1)
+  state.ab = new I2CAddressedBus(state.bus, state.address)
+  state.ds = await DS3502.from(state.ab)
+}
+
+
+
+function addressOrCommand(item, steps) {
+  if(item !== 'address' ) {
+    return command(item, [ ...steps, state => setupDS(state, DEFAULT_ADDRESS) ])
+  }
+
+  return command(item, steps)
+}
+
+
+
 function script(item, steps) {
   return { next: firstCommand, steps }
 }
@@ -136,6 +156,9 @@ catch(e) {
   console.log('top level error', e)
 }
 
+
+// set log ON
+// set address 0x2b
 // set mode updateOnly
 // set mode setAndUpdate
 // set pot 30%

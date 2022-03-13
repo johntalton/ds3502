@@ -1,6 +1,6 @@
 {
   "name": "@johntalton/ds3502",
-  "version": "0.1.0",
+  "version": "3.0.0",
   "description": "",
   "author": "johntalton@gmail.com",
   "license": "MIT",
@@ -17,9 +17,29 @@
     "src/**/*.mjs"
   ],
   "scripts": {
-    "lint": "./node_modules/.bin/eslint .",
+    "lint": "./node_modules/.bin/eslint --ext mjs ./src/**/*",
     "test:mocha": "mocha",
     "coverage:c8": "./node_modules/.bin/c8 --check-coverage --all --include src/**/*.mjs --lines 75 --functions 5 --branches 85 --reporter lcov --reporter text npm --silent run test:mocha -- --no-parallel --reporter min"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@johntalton/eslint-config/js",
+      "@johntalton/eslint-config/es",
+      "@johntalton/eslint-config/node"
+    ],
+    "rules": {
+      "import/extensions": "warn",
+      "spellcheck/spell-checker": [
+        "error",
+        {
+          "identifiers": false,
+          "minLength": 4,
+          "skipWords": [
+            "ds3502"
+          ]
+        }
+      ]
+    }
   },
   "mocha": {
     "spec": [
@@ -40,20 +60,22 @@
     "@johntalton/and-other-delights": "^6.0.0"
   },
   "devDependencies": {
-    "c8": "^7.2.0",
-    "chai": "^4.2.0",
-    "eslint": "^7.1.0",
+    "@johntalton/eslint-config": "github:johntalton/eslint-config",
+    "c8": "^7.5.0",
+    "chai": "^4.3.0",
+    "eslint": "^8.10.0",
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-immutable": "^1.0.0",
     "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jsdoc": "^29.1.0",
+    "eslint-plugin-mocha": "^10.0.3",
     "eslint-plugin-no-loops": "^0.3.0",
     "eslint-plugin-no-use-extend-native": "^0.5.0",
-    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-security": "^1.4.0",
-    "eslint-plugin-spellcheck": "0.0.17",
+    "eslint-plugin-spellcheck": "0.0.19",
     "i2c-bus": "^5.2.0",
-    "mocha": "^8.0.1"
+    "mocha": "^9.2.1"
   },
   "repository": {
     "type": "git",
