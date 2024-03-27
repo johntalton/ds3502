@@ -23,9 +23,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "@johntalton/eslint-config/js",
-      "@johntalton/eslint-config/es",
-      "@johntalton/eslint-config/node"
+      "@johntalton/eslint-config/es"
     ],
     "rules": {
       "import/extensions": "warn",
