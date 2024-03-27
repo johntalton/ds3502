@@ -1,6 +1,6 @@
 {
   "name": "@johntalton/ds3502",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "",
   "author": "johntalton@gmail.com",
   "license": "MIT",
@@ -18,25 +18,16 @@
   ],
   "scripts": {
     "lint": "./node_modules/.bin/eslint --ext mjs ./src/**/*",
+    "test": "npm run test:mocha",
     "test:mocha": "mocha",
+    "coverage": "npm run coverage:c8",
     "coverage:c8": "./node_modules/.bin/c8 --check-coverage --all --include src/**/*.mjs --lines 75 --functions 5 --branches 85 --reporter lcov --reporter text npm --silent run test:mocha -- --no-parallel --reporter min"
   },
   "eslintConfig": {
     "extends": [
-      "@johntalton/eslint-config/es"
+      "@johntalton/eslint-config/node"
     ],
     "rules": {
-      "import/extensions": "warn",
-      "spellcheck/spell-checker": [
-        "error",
-        {
-          "identifiers": false,
-          "minLength": 4,
-          "skipWords": [
-            "ds3502"
-          ]
-        }
-      ]
     }
   },
   "mocha": {

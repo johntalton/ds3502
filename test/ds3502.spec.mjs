@@ -14,7 +14,7 @@ const DEFAULT_SCRIPT = {
 }
 
 const PROFILE_SCRIPT = [
-  { method: 'readI2cBlock', result: { bytesRead: 3, buffer: Buffer.from([0x03, 0x00, 0x05]) } },
+  { method: 'readI2cBlock', result: { bytesRead: 3, buffer: Buffer.from([ 0x03, 0x00, 0x05 ]) } },
   ...EOS_SCRIPT
 ]
 
@@ -44,9 +44,9 @@ describe('DS3502', () => {
   })
 
   describe('#profile', () => {
-    it('should ', async () => {
+    it('should read', async () => {
       //
-      const bus = await I2CScriptBus.openPromisified(1, PROFILE_SCRIPT)
+      const bus = await I2CScriptBus.openPromisified(PROFILE_SCRIPT)
       const ds = await DS3502.from(new I2CAddressedBus(bus, 0x28))
       const p = await ds.profile();
       expect(p.WR).to.equal(3)
@@ -58,7 +58,7 @@ describe('DS3502', () => {
   describe('#setProfile', () => {
     it('should set profile single CR', async () => {
       //
-      const bus = await I2CScriptBus.openPromisified(1, UPDATE_PROFILE_CR_SCRIPT)
+      const bus = await I2CScriptBus.openPromisified(UPDATE_PROFILE_CR_SCRIPT)
       const ds = await DS3502.from(new I2CAddressedBus(bus, 0x28))
       await ds.setProfile({ CR: 128 });
 
@@ -66,14 +66,14 @@ describe('DS3502', () => {
 
     it('should set profile single WR', async () => {
       //
-      const bus = await I2CScriptBus.openPromisified(1, UPDATE_PROFILE_WR_SCRIPT)
+      const bus = await I2CScriptBus.openPromisified(UPDATE_PROFILE_WR_SCRIPT)
       const ds = await DS3502.from(new I2CAddressedBus(bus, 0x28))
       await ds.setProfile({ WR: 42 });
     })
 
     it('should set profile fully', async () => {
       //
-      const bus = await I2CScriptBus.openPromisified(1, UPDATE_PROFILE_FULL_SCRIPT)
+      const bus = await I2CScriptBus.openPromisified(UPDATE_PROFILE_FULL_SCRIPT)
       const ds = await DS3502.from(new I2CAddressedBus(bus, 0x28))
       await ds.setProfile({ WR: 42, CR: 0 });
     })
