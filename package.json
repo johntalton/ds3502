@@ -46,7 +46,7 @@
     "global": []
   },
   "dependencies": {
-    "@johntalton/and-other-delights": "^6.0.0"
+    "@johntalton/and-other-delights": "^7.0.0"
   },
   "devDependencies": {
     "@johntalton/eslint-config": "github:johntalton/eslint-config",
