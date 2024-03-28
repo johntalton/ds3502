@@ -51,7 +51,7 @@
   "devDependencies": {
     "@johntalton/eslint-config": "github:johntalton/eslint-config",
     "c8": "^8.0.1",
-    "chai": "^4.3.0",
+    "chai": "^5.1.0",
     "eslint": "^8.10.0",
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-immutable": "^1.0.0",
