@@ -1,72 +1,14 @@
 {
-  "name": "@johntalton/ds3502",
-  "version": "3.0.2",
-  "description": "",
-  "author": "johntalton@gmail.com",
-  "license": "MIT",
-  "main": "src/index.mjs",
-  "exports": {
-    "import": "./src/index.mjs",
-    "require": "./src/index.mjs"
-  },
-  "type": "module",
-  "engines": {
-    "node": ">=20.0.0"
-  },
-  "files": [
-    "src/**/*.mjs"
-  ],
-  "scripts": {
-    "lint": "eslint --ext mjs ./src/**/*",
-    "test": "npm run test:mocha",
-    "test:mocha": "mocha",
-    "coverage": "npm run coverage:c8",
-    "coverage:c8": "c8 --check-coverage --all --include src/**/*.mjs --lines 75 --functions 5 --branches 80 --reporter lcov --reporter text npm --silent run test:mocha -- --no-parallel --reporter min"
-  },
-  "eslintConfig": {
-    "extends": [
-      "@johntalton/eslint-config/node"
-    ],
-    "rules": {
-    }
-  },
-  "mocha": {
-    "spec": [
-      "test/*.spec.mjs"
-    ],
-    "grep": "@broken|@slow",
-    "invert": true,
-    "parallel": true,
-    "slow": 2,
-    "timeout": 31,
-    "watch": false,
-    "sort": false,
-    "forbitOnly": true,
-    "check-leaks": true,
-    "global": []
-  },
-  "dependencies": {
-    "@johntalton/and-other-delights": "^6.0.0"
-  },
-  "devDependencies": {
-    "@johntalton/eslint-config": "github:johntalton/eslint-config",
-    "c8": "^8.0.1",
-    "chai": "^4.3.0",
-    "eslint": "^8.10.0",
-    "eslint-plugin-fp": "^2.3.0",
-    "eslint-plugin-immutable": "^1.0.0",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-mocha": "^10.0.3",
-    "eslint-plugin-no-loops": "^0.3.0",
-    "eslint-plugin-no-use-extend-native": "^0.5.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-security": "^1.4.0",
-    "eslint-plugin-spellcheck": "0.0.20",
-    "mocha": "^10.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:johntalton/ds3502.git"
-  }
+	"name": "@johntalton/ds3502",
+	"version": "4.0.0",
+	"type": "module",
+	"exports": {
+		".": "./src/index.js"
+	},
+	"files": [
+		"src/**/*.js"
+	],
+	"dependencies": {
+		"@johntalton/and-other-delights": "^7.0.0"
+	}
 }

@@ -4,14 +4,13 @@ Digital Potentiometer (POT)
 [![npm Version](http://img.shields.io/npm/v/@johntalton/ds3502.svg)](https://www.npmjs.com/package/@johntalton/ds3502)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/johntalton/ds3502)
 ![CI](https://github.com/johntalton/ds3502/workflows/CI/badge.svg)
-![CodeQL](https://github.com/johntalton/ds3502/workflows/CodeQL/badge.svg)
 ![GitHub](https://img.shields.io/github/license/johntalton/ds3502)
 [![Downloads Per Month](http://img.shields.io/npm/dm/@johntalton/ds3502.svg)](https://www.npmjs.com/package/@johntalton/ds3502)
 ![GitHub last commit](https://img.shields.io/github/last-commit/johntalton/ds3502)
 
 * [Operation](#gear-operation)
 * [Api](#book-api)
-* [Tools](#wrench-tools) 
+* [Tools](#wrench-tools)
 
 ## :gear: Operation
 The Digital Potentiometer uses a resistory array to achive a 0-127 step range between its high (RH) and low value (RL).  In most cases these are wired to the same logic high and low.  Thus, providing a POT output (on RW) for analog usage in the RH-RL range.
@@ -31,26 +30,23 @@ The primary interface is the exposed `DS3502` class.  Which expose a factory met
 And example of typical usage:
 
 ```javascript
-import i2c from 'i2c-bus'
-import aod from '@johntalton/and-other-delights'
-const { I2CAddressedBus } = aod
+import { I2CAddressedBus } from '@johntalton/and-other-delights'
 import { DS3502 } from '@johntalton/ds3502'
 
 const busNumber = 1
 const busAddress = 0x28
 
-const i2c1 = await i2c.openPromisified(busNumber)
-const ds = await DS3502.from(new I2CAddressedBus(i2c1, busAddress))
+const ds = await DS3502.from(new I2CAddressedBus(i2c1, bus))
 
 const profile = await ds.profile() // { WR: 127, CR: 0 }
 
 ```
 
 #### profile
-Returns asyncronously and object with properties for the wiper (WR) and control (CR).  The initialization value of the wiper (IVR) can not be inspected.  
+Returns asynchronously and object with properties for the wiper (WR) and control (CR).  The initialization value of the wiper (IVR) can not be inspected.
 
 #### setProfile
-Sets asyncronously the devices profile via and object with properties for wiper (WR) and control (CR).  Both wiper `WR` and `CR` mode update can be specified in a single update.  However, the POTs value update to the wiper (WR) will respect the previous `mode` value.
+Sets asynchronously the devices profile via and object with properties for wiper (WR) and control (CR).  Both wiper `WR` and `CR` mode update can be specified in a single update.  However, the POTs value update to the wiper (WR) will respect the previous `mode` value.
 
 
 ## :wrench: Tools

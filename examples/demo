@@ -1,8 +1,0 @@
-#!/bin/bash
-
-while true;
-do
-  eval "node set.mjs address 2b mode 128 commandDelay 1 pot $(( $RANDOM % (128 - 100) + 100 ))"
-done
-
-eval "node set.mjs pot 0"
