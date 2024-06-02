@@ -4,54 +4,47 @@ export const REGISTER = {
 	CONTROL: 0x02
 }
 
-export const FULL_PROFILE_START = REGISTER.WIPER
-export const FULL_PROFILE_LENGTH = 3
-
 export const MODE_UPDATE_ONLY = 0
 export const MODE_SET_AND_UPDATE = 1
 
+export const BYTE_LENGTH_ONE = 1
+export const SINGLE_BIT_MASK = 0b1
+
 export class DS3502 {
 	#aBus
-
 	static from(aBus) { return new DS3502(aBus) }
-
 	constructor(aBus) { this.#aBus = aBus }
 
-	async profile() {
-		const result = await this.#aBus.readI2cBlock(FULL_PROFILE_START, FULL_PROFILE_LENGTH)
-		const [WR, unused, CR] = result
-		return { WR, unused, CR }
+	async getControl() {
+		const buffer = await this.#aBus.readI2cBlock(REGISTER.CONTROL, BYTE_LENGTH_ONE)
+		const u8 = ArrayBuffer.isView(buffer) ?
+			new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength) :
+			new Uint8Array(buffer)
+
+		const [ control ] = u8
+		const persist = ((control >> 7) & SINGLE_BIT_MASK) === MODE_SET_AND_UPDATE
+
+		return {
+			persist
+		}
 	}
 
-	async setProfile(profile) {
-		const hasWR = profile.WR !== undefined
-		const hasCR = profile.CR !== undefined
+	async getWiper() {
+		const buffer = await this.#aBus.readI2cBlock(REGISTER.WIPER, BYTE_LENGTH_ONE)
+		const u8 = ArrayBuffer.isView(buffer) ?
+			new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength) :
+			new Uint8Array(buffer)
 
-		// profile.unused = 10 // used to fingerprint?
-		const unused = profile.unused || 0xFE
+		const [ wiper ] = u8
+		return wiper
+	}
 
-		if (!hasWR && !hasCR) {
-			return Promise.resolve()
-		}
+	async setControl({ persist = false }) {
+		const control = (persist ? MODE_SET_AND_UPDATE : MODE_UPDATE_ONLY) << 7
+		return this.#aBus.writeI2cBlock(REGISTER.CONTROL, Uint8ClampedArray.from([ control ]))
+	}
 
-		// pot update (may cuase ivr update depending on mode, expect delay)
-		if (hasWR && !hasCR) {
-			// console.log('pot update')
-			return this.#aBus.writeI2cBlock(REGISTER.WIPER, Uint8Array.from([ profile.WR ]))
-		}
-
-		// update just mode
-		if (!hasWR && hasCR) {
-			// console.log('mode update')
-			return this.#aBus.writeI2cBlock(REGISTER.CONTROL, Uint8Array.from([ profile.CR ]))
-		}
-
-		// full update
-		if (hasWR && hasCR) {
-			// console.log('full update')
-			return this.#aBus.writeI2cBlock(FULL_PROFILE_START, Uint8Array.from([ profile.WR, unused, profile.CR ]))
-		}
-
-		throw new Error('unknown set profile state')
+	async setWiper(value) {
+		return this.#aBus.writeI2cBlock(REGISTER.WIPER, Uint8ClampedArray.from([ value ]))
 	}
 }

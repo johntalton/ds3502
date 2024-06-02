@@ -1,14 +1,11 @@
 {
 	"name": "@johntalton/ds3502",
-	"version": "4.0.0",
+	"version": "5.0.0",
 	"type": "module",
 	"exports": {
 		".": "./src/index.js"
 	},
 	"files": [
 		"src/**/*.js"
-	],
-	"dependencies": {
-		"@johntalton/and-other-delights": "^7.0.0"
-	}
+	]
 }
