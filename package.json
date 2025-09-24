@@ -1,11 +1,14 @@
 {
 	"name": "@johntalton/ds3502",
-	"version": "5.0.0",
+	"version": "5.0.1",
 	"type": "module",
 	"exports": {
 		".": "./src/index.js"
 	},
 	"files": [
 		"src/**/*.js"
-	]
+	],
+	"repository": {
+		"url": "https://github.com/johntalton/ds3502"
+	}
 }
